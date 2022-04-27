@@ -37,8 +37,13 @@ async function run(): Promise<void> {
 
       for (const user of usersToFollow) {
         console.log(`:: FOLLOW  ->  ${user.username}`);
-        await follow({ user });
-        await twitterClient.v2.removeListMember(usersToFollowId, user.id);
+        const result = await follow({ user });
+        if (result) {
+          await twitterClient.v2.removeListMember(usersToFollowId, user.id);
+        } else {
+          console.log(`:: ERROR FOUND, BREAKING`);
+          break;
+        }
       }
 
       // --------------------------------------------- //
@@ -129,7 +134,12 @@ async function run(): Promise<void> {
         for (const user of users) {
           console.log(`:: FOLLOW -> ${user.username}`);
           await wait();
-          await follow({ user });
+          const result = await follow({ user });
+          if (!result) {
+            console.log(`:: ERROR FOUND, BREAKING`);
+
+            break;
+          }
         }
       }
 
@@ -165,7 +175,11 @@ async function run(): Promise<void> {
         for (const user of users) {
           console.log(`:: UNFOLLOW -> ${user.username}`);
           await wait();
-          await unfollow({ user });
+          const result = await unfollow({ user });
+          if (!result) {
+            console.log(`:: ERROR FOUND, BREAKING`);
+            break;
+          }
         }
       }
     } catch (error) {
