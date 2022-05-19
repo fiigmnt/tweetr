@@ -23,10 +23,13 @@ const rand = (min: number, max: number): number => {
 const wait = () => new Promise((r) => setTimeout(r, 2000));
 
 async function run(): Promise<void> {
+  const runJob = rand(0, 100) > 50;
+  console.log(`--------- STARTING ---------`);
+  console.log(`RUN JOB: ${runJob}`);
+
   // Only run half the time
-  if (rand(0, 100) > 50) {
+  if (runJob) {
     try {
-      console.log(`--------- STARTING ---------`);
       // --------------------------------------------- //
       // follow list users
 
