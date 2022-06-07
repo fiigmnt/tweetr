@@ -4,27 +4,23 @@
 // Fiigmnt | January 18, 2022 | Updated:
 // ----------------------------------------------------------------------------------//
 
-import { UserV2 } from "twitter-api-v2";
-import { twitterClient, prisma } from "./utils";
-import { getListMembers, ListType } from "./lists";
-import { addUsers, follow, unfollow, getFollowers } from "./actions";
+import { UserV2 } from 'twitter-api-v2';
+import { twitterClient, prisma, rand, wait } from './utils';
+import { getListMembers, ListType } from './lists';
+import { addUsers, follow, unfollow, getFollowers } from './actions';
 
 // --------------------------------------------- //
 // SCHEDULE INFO
 // 50 per call, 400 per day
 // 8 calls total per day, every hour starting at 8am
-// CRON JOB -> 0 8-14 * * *
+// CRON JOB -> 0 12-16 * * *
 // --------------------------------------------- //
-
-const rand = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min)) + min;
-};
-
-const wait = () => new Promise((r) => setTimeout(r, 2000));
 
 async function run(): Promise<void> {
   // only want to run half of the time
-  const runJob = rand(0, 100) > 50;
+  // const runJob = rand(0, 100) > 50;
+  const runJob = rand(0, 100) > 0;
+
   console.log(`--------- STARTING ---------`);
   console.log(`RUN JOB: ${runJob}`);
 
@@ -70,8 +66,8 @@ async function run(): Promise<void> {
 
       // --------------------------------------------- //
       // -- Follow Schedule ---
-      // FOLLOW = Monday, Tuesday, Wednesday
-      // UNFOLLOW = Thursday, Friday, Saturday
+      // FOLLOW = Tuesday, Thursday, Friday
+      // UNFOLLOW = Monday, Wednesday, Saturday, Sunday
 
       enum Day {
         SUNDAY = 0,
@@ -130,7 +126,7 @@ async function run(): Promise<void> {
           where: { followed: false },
           take: 25,
           orderBy: {
-            updatedAt: "desc",
+            updatedAt: 'desc',
           },
         });
 
@@ -170,7 +166,7 @@ async function run(): Promise<void> {
           where: { followed: true, unfollow: true, unfollowed: false },
           take: 25,
           orderBy: {
-            updatedAt: "desc",
+            updatedAt: 'desc',
           },
         });
 
@@ -185,7 +181,7 @@ async function run(): Promise<void> {
         }
       }
     } catch (error) {
-      console.log(":: ERROR -> MAIN RUN ::");
+      console.log(':: ERROR -> MAIN RUN ::');
       console.log(error);
     }
   }
