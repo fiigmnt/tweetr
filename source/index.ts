@@ -23,11 +23,11 @@ const rand = (min: number, max: number): number => {
 const wait = () => new Promise((r) => setTimeout(r, 2000));
 
 async function run(): Promise<void> {
+  // only want to run half of the time
   const runJob = rand(0, 100) > 50;
   console.log(`--------- STARTING ---------`);
   console.log(`RUN JOB: ${runJob}`);
 
-  // Only run half the time
   if (runJob) {
     try {
       // --------------------------------------------- //
@@ -89,7 +89,7 @@ async function run(): Promise<void> {
       // Follow Schedule
 
       if (
-        today === Day.WEDNESDAY ||
+        today === Day.TUESDAY ||
         today === Day.THURSDAY ||
         today === Day.FRIDAY
       ) {
@@ -140,7 +140,6 @@ async function run(): Promise<void> {
           const result = await follow({ user });
           if (!result) {
             console.log(`:: ERROR FOUND, BREAKING`);
-
             break;
           }
         }
@@ -150,7 +149,7 @@ async function run(): Promise<void> {
       // Unfollow Schedule
       if (
         today === Day.MONDAY ||
-        today === Day.TUESDAY ||
+        today === Day.WEDNESDAY ||
         today === Day.SATURDAY ||
         today === Day.SUNDAY
       ) {

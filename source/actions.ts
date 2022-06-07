@@ -25,8 +25,14 @@ export const follow = async ({ user }: { user: UserV2 }): Promise<boolean> => {
       },
     });
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.log(":: ERROR ::");
+    console.log(error);
+    if (error.code == 400) {
+      console.log('400 Error :: removing user');
+      await prisma.user.delete({ where: { id: user.id}})
+      return true
+    }
     console.log(error);
     return false;
   }
