@@ -18,8 +18,7 @@ import { addUsers, follow, unfollow, getFollowers } from './actions';
 
 async function run(): Promise<void> {
   // only want to run half of the time
-  // const runJob = rand(0, 100) > 50;
-  const runJob = rand(0, 100) > 0;
+  const runJob = rand(0, 100) > 50;
 
   console.log(`--------- STARTING ---------`);
   console.log(`RUN JOB: ${runJob}`);
