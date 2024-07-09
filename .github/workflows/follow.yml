@@ -2,7 +2,8 @@ name: follow
 
 on:
   schedule:
-    # - cron: "0 12-16 * * *"
+    # “At minute 0 past every hour from 12 through 16.”
+    - cron: "0 12-16 * * *"
 
 jobs:
   build:
@@ -14,7 +15,7 @@ jobs:
           node-version: '16.x'
       - run: yarn install
       - name: Run
-        run: yarn start
+        run: yarn test:action
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}

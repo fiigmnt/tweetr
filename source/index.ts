@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------------//
 // Main Event Handler
 // Tweetr (( v1.1.0 ))
-// Fiigmnt | January 18, 2022 | Updated:
+// Fiigmnt | January 18, 2022 | Updated: July 9, 2024
 // ----------------------------------------------------------------------------------//
 
 import { UserV2 } from 'twitter-api-v2';
@@ -11,6 +11,7 @@ import { addUsers, follow, unfollow, getFollowers } from './actions';
 
 // --------------------------------------------- //
 // SCHEDULE INFO
+// TODO: update this schedule to match guidlines
 // 50 per call, 400 per day
 // 8 calls total per day, every hour starting at 8am
 // CRON JOB -> 0 12-16 * * *
@@ -28,6 +29,7 @@ async function run(): Promise<void> {
       // --------------------------------------------- //
       // follow list users
 
+      // TODO: ERROR - this follows all list users at once (does not consider limits)
       const { users: usersToFollow, listId: usersToFollowId } =
         await getListMembers({
           type: ListType.FOLLOW,
@@ -66,6 +68,7 @@ async function run(): Promise<void> {
       // --------------------------------------------- //
       // -- Follow Schedule ---
       // FOLLOW = Tuesday, Thursday, Friday
+      // TODO: block this out manually - follow a bunch at first
       // UNFOLLOW = Monday, Wednesday, Saturday, Sunday
 
       enum Day {
@@ -98,6 +101,7 @@ async function run(): Promise<void> {
           // --------------------------------------------- //
           // get some more users
 
+          // TODO: test this out, see if it still works
           const { users: usersToCopy, listId: usersToCopyId } =
             await getListMembers({
               type: ListType.COPY,
@@ -123,7 +127,7 @@ async function run(): Promise<void> {
         // follow those users
         const users = await prisma.user.findMany({
           where: { followed: false },
-          take: 25,
+          take: 25, // TODO: this is important - following this number of users
           orderBy: {
             updatedAt: 'desc',
           },
@@ -131,7 +135,7 @@ async function run(): Promise<void> {
 
         for (const user of users) {
           console.log(`:: FOLLOW -> ${user.username}`);
-          await wait();
+          await wait(); // TODO: this should spread out so 5 (or less) every 15 minuts
           const result = await follow({ user });
           if (!result) {
             console.log(`:: ERROR FOUND, BREAKING`);
@@ -163,7 +167,7 @@ async function run(): Promise<void> {
         // unfollow those users
         const users = await prisma.user.findMany({
           where: { followed: true, unfollow: true, unfollowed: false },
-          take: 25,
+          take: 25, // TODO: again taking 25 users to unfollow
           orderBy: {
             updatedAt: 'desc',
           },
@@ -171,7 +175,7 @@ async function run(): Promise<void> {
 
         for (const user of users) {
           console.log(`:: UNFOLLOW -> ${user.username}`);
-          await wait();
+          await wait(); // TODO: how long are we waiting for?
           const result = await unfollow({ user });
           if (!result) {
             console.log(`:: ERROR FOUND, BREAKING`);

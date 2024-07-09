@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "build": "npx tsc",
-    "start": "npx tsc && node ./build/index.js"
+    "start": "npx tsc && node ./build/index.js",
+    "test:action": "node ./scripts/test-action.js"
   },
   "devDependencies": {
     "@types/node": "^17.0.25",
