@@ -3,7 +3,7 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
-    "followed" BOOLEAN NOT NULL,
+    "followed" BOOLEAN DEFAULT false,
     "unfollowed" BOOLEAN DEFAULT false,
     "followsBack" BOOLEAN DEFAULT false,
     "unfollow" BOOLEAN DEFAULT true,
