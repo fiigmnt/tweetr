@@ -1,8 +1,8 @@
 name: follow
 
 on:
-  schedule:
-    - cron: "*/20 * * * *"
+  # schedule:
+  #   - cron: "*/20 * * * *"
   workflow_dispatch: # Add this line to enable manual triggering
 
 jobs:
