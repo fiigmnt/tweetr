@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------------//
-// TWEETR
-// actions (( BETA v0.1.0 ))
-// Fiigmnt | Febuary 9, 2022 | Updated: July 9, 2024
+// ACTIONS FILE
+// tweetr (( BETA v0.2.0 ))
+// FIIG | Febuary 9, 2022 | Updated: July 9, 2024
 // ----------------------------------------------------------------------------------//
 
 import { TweetV2, UserV2 } from "twitter-api-v2";
