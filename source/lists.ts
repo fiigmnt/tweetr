@@ -10,7 +10,7 @@ import { twitterClient } from './utils';
 export enum ListType {
   FOLLOW = 'follow',
   KEEP = 'keep',
-  COPY = 'copy',
+  COPY = 'devs',
 }
 
 export const getListMembers = async ({

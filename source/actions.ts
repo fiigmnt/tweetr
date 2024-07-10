@@ -133,7 +133,7 @@ export const addUsers = async (users: UserV2[]): Promise<void> => {
 };
 
 // NOTE - MANUALLY RUNNING FROM TWITTER COPY PASTE
-export const getFollowers = async (userId: string, maxFollowers = 900) => {
+export const getFollowers = async (userId: string, maxFollowers = 9000) => {
   let followers: UserV2[] = [];
   let cursor: string | null = null;
 
