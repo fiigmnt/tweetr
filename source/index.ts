@@ -20,26 +20,8 @@ async function main(): Promise<void> {
   console.log(`--------- STARTING ---------`);
 
   try {
-    // IMPORTANT - the remove endpoint doesn't work so we can't use this
-    // KEEP LIST USERS
-    // const { users: usersToKeep, listId: usersToKeepId } = await getListMembers({
-    //   type: ListType.KEEP,
-    // });
-
-    // for await (const user of usersToKeep) {
-    //   console.log(`:: KEEP  ->  ${user.username}`);
-    //   await prisma.user.update({
-    //     where: { id: user.id },
-    //     data: {
-    //       unfollow: false,
-    //     },
-    //   });
-    //   THIS ENDPOINT DOES NOT WORK
-    //   await twitterClient.v2.removeListMember(usersToKeepId, user.id);
-    // }
-
     // --------------------------------------------- //
-    // IMPORTANT: not useing a follow / unfollow schedule
+    // TODO: IMPORTANT: not using a follow / unfollow schedule
     // -- Follow Schedule ---
     // const today: Day = new Date().getDay();
 
@@ -62,7 +44,7 @@ async function main(): Promise<void> {
 
       const parent: UserV2 = usersToCopy[rand(0, usersToCopy.length - 1)];
       console.log(`:: ADDING USERS FROM -> ${parent.username}`);
-      const followers = await getFollowers(parent.id);
+      const followers = await getFollowers("14815732");
 
       await addUsers(followers);
 
