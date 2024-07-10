@@ -20,6 +20,7 @@ async function main(): Promise<void> {
   console.log(`--------- STARTING ---------`);
 
   try {
+    // IMPORTANT - the remove endpoint doesn't work so we can't use this
     // KEEP LIST USERS
     // const { users: usersToKeep, listId: usersToKeepId } = await getListMembers({
     //   type: ListType.KEEP,
@@ -33,10 +34,12 @@ async function main(): Promise<void> {
     //       unfollow: false,
     //     },
     //   });
+    //   THIS ENDPOINT DOES NOT WORK
     //   await twitterClient.v2.removeListMember(usersToKeepId, user.id);
     // }
 
     // --------------------------------------------- //
+    // IMPORTANT: not useing a follow / unfollow schedule
     // -- Follow Schedule ---
     // const today: Day = new Date().getDay();
 
