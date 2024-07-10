@@ -10,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: '18.x'
       - run: yarn install
+      - name: Generate Prisma Client
+        run: npx prisma generate
       - name: Run
         run: yarn start
         env:
