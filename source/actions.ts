@@ -18,12 +18,14 @@ export const follow = async ({ user }: { user: UserV2 }): Promise<boolean> => {
     console.log(":: liking tweets ::");
     const tweets = await (await twitterClient.v2.userTimeline(id, { exclude: "replies" })).data.data;
 
-    // grab random tweet
-    let tweetIndex = rand(0, tweets.length - 1);
-    let tweet = tweets[tweetIndex];
+    if (tweets?.length > 0) {
+      // grab random tweet
+      let tweetIndex = rand(0, tweets.length - 1);
+      let tweet = tweets[tweetIndex];
 
-    // like that tweet
-    await like({ tweet });
+      // like that tweet
+      await like({ tweet });
+    }
 
     // update user in db
     await prisma.user.upsert({
@@ -163,9 +165,9 @@ export const getFollowers = async (userId: string, maxFollowers = 900) => {
 
       const result = await response.json();
 
-      const entries = result.data.user.result.timeline.timeline.instructions.find(
-        (instruction: any) => instruction.type === "TimelineAddEntries"
-      )?.entries.filter((entry: any) => entry.entryId.includes("user"));
+      const entries = result.data.user.result.timeline.timeline.instructions
+        .find((instruction: any) => instruction.type === "TimelineAddEntries")
+        ?.entries.filter((entry: any) => entry.entryId.includes("user"));
 
       const users: UserV2[] = entries.map((entry: any) => {
         return {
@@ -178,9 +180,9 @@ export const getFollowers = async (userId: string, maxFollowers = 900) => {
       followers = [...followers, ...users];
 
       // Find the next cursor
-      const nextCursor = result.data.user.result.timeline.timeline.instructions.find(
-        (instruction: any) => instruction.type === "TimelineAddEntries"
-      )?.entries.find((entry: any) => entry.entryId.includes("cursor-bottom"))?.content.value;
+      const nextCursor = result.data.user.result.timeline.timeline.instructions
+        .find((instruction: any) => instruction.type === "TimelineAddEntries")
+        ?.entries.find((entry: any) => entry.entryId.includes("cursor-bottom"))?.content.value;
 
       return nextCursor;
     } catch (error) {
