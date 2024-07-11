@@ -15,17 +15,17 @@ export const follow = async ({ user }: { user: UserV2 }): Promise<boolean> => {
     await twitterClient.v2.follow((await twitterClient.v2.me()).data.id, id);
 
     // like two of users recent tweets
-    console.log(":: liking tweets ::");
-    const tweets = await (await twitterClient.v2.userTimeline(id, { exclude: "replies" })).data.data;
+    // console.log(":: liking tweets ::");
+    // const tweets = await (await twitterClient.v2.userTimeline(id, { exclude: "replies" })).data.data;
 
-    if (tweets?.length > 0) {
-      // grab random tweet
-      let tweetIndex = rand(0, tweets.length - 1);
-      let tweet = tweets[tweetIndex];
+    // if (tweets?.length > 0) {
+    //   // grab random tweet
+    //   let tweetIndex = rand(0, tweets.length - 1);
+    //   let tweet = tweets[tweetIndex];
 
-      // like that tweet
-      await like({ tweet });
-    }
+    //   // like that tweet
+    //   await like({ tweet });
+    // }
 
     // update user in db
     await prisma.user.upsert({
