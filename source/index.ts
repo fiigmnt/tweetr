@@ -54,9 +54,9 @@ async function main(): Promise<void> {
     }
 
     // --------------------------------------------- //
-    // follow those users
+    // Unfollow those users
     const users = await prisma.user.findMany({
-      where: { followed: false },
+      where: { unfollowed: false, unfollow: true, followed: true },
       take: 5,
       orderBy: {
         updatedAt: "desc",
@@ -64,7 +64,7 @@ async function main(): Promise<void> {
     });
 
     for (const user of users) {
-      console.log(`:: FOLLOW -> ${user.username}`);
+      console.log(`:: UNFOLLOW -> ${user.username}`);
       await wait(rand(1000, 5000));
       const result = await follow({ user });
       if (!result) {
