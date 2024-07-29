@@ -66,7 +66,7 @@ async function main(): Promise<void> {
     for (const user of users) {
       console.log(`:: UNFOLLOW -> ${user.username}`);
       await wait(rand(1000, 5000));
-      const result = await follow({ user });
+      const result = await unfollow({ user });
       if (!result) {
         console.log(`:: ERROR FOUND, BREAKING`);
         break;
